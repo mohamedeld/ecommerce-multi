@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 
 const HomeTab = () => {
   return (
-    <View>
-      <Text>HomeTab</Text>
-    </View>
+    <ScrollView
+      className="flex-1 px-4"
+      showsVerticalScrollIndicator={false}
+    ></ScrollView>
   );
 };
 
