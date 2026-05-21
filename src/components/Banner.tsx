@@ -40,7 +40,10 @@ const Banner = () => {
             <Text className="text-white text-sm font-medium">
               {banner?.subtitle}
             </Text>
-            <TouchableOpacity className="mt-2 bg-white px-4 py-2 rounded-full self-start">
+            <TouchableOpacity
+              onPress={() => router.push(`/`)}
+              className="mt-2 bg-white px-4 py-2 rounded-full self-start"
+            >
               <Text className="text-primary font-bold text-xs">Get Now</Text>
             </TouchableOpacity>
           </View>
