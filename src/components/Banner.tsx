@@ -1,6 +1,6 @@
 import { BANNERS } from "@/assets/assets";
 import { useRouter } from "expo-router";
-import React, { Fragment } from "react";
+import React, { useRef } from "react";
 import {
   Dimensions,
   Image,
@@ -11,20 +11,23 @@ import {
 } from "react-native";
 
 const width = Dimensions.get("window")?.width;
+const ITEM_WIDTH = width - 32;
 const Banner = () => {
   const router = useRouter();
   const [activeBanner, setActiveBanner] = React.useState(0);
+  const scrollRef = useRef<ScrollView>(null);
   return (
-    <Fragment>
+    <View className="mb-6">
       <ScrollView
+        ref={scrollRef}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         pagingEnabled={true}
         className="w-full h-48 rounded-xl"
         scrollEventThrottle={16}
         onMomentumScrollEnd={(event) => {
-          const index = Math.floor(
-            event.nativeEvent.contentOffset.x / (width - 32),
+          const index = Math.round(
+            event.nativeEvent.contentOffset.x / ITEM_WIDTH,
           );
           setActiveBanner(index);
         }}
@@ -61,13 +64,27 @@ const Banner = () => {
       </ScrollView>
       <View className="flex-row justify-center mt-3 gap-2">
         {BANNERS?.map((_, index) => (
-          <View
+          <TouchableOpacity
             key={index}
-            className={` h-2 rounded-full ${index === activeBanner ? "w-6 bg-primary" : "w-2 bg-gray-300"}`}
+            activeOpacity={0.8}
+            onPress={() => {
+              setActiveBanner(index);
+
+              scrollRef.current?.scrollTo({
+                x: index * (width - 32),
+                animated: true,
+              });
+            }}
+            style={{
+              width: index === activeBanner ? 24 : 8,
+              height: 8,
+              borderRadius: 999,
+              backgroundColor: index === activeBanner ? "#000" : "#D1D5DB",
+            }}
           />
         ))}
       </View>
-    </Fragment>
+    </View>
   );
 };
 
